@@ -1,0 +1,30 @@
+name: Workflow
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - branch-[0-9]+.[0-9]+
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+      - uses: ./.github/actions/setup-java
+        with:
+          java-version: 11
+          distribution: "adopt"
+      - uses: ./.github/actions/setup-java
+      - run: |
+          pip install pyspark
+      - run: |
+          git clone https://github.com/cdarlint/winutils
+      - name: Run python tests
+        run: |
+          # Set Hadoop environment variables required for testing Spark integrations on Windows
+          export HADOOP_HOME=`realpath winutils/hadoop-3.2.2`
+          export PATH=$PATH:$HADOOP_HOME/bin
