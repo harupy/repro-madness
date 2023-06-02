@@ -9,7 +9,6 @@ with (
         "spark.sql.catalog.spark_catalog",
         "org.apache.spark.sql.delta.catalog.DeltaCatalog",
     )
-    .config("spark.sql.execution.arrow.pyspark.enabled", "true")
     .getOrCreate()
 ) as sess:
     df = sess.createDataFrame(
