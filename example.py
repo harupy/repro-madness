@@ -5,7 +5,7 @@ import tempfile
 with tempfile.TemporaryDirectory() as tempdir:
     with (
         SparkSession.builder.master("local[*]")
-        .config("spark.jars.packages", "io.delta:delta-core_2.12:2.0.2")
+        .config("spark.jars.packages", "io.delta:delta-core_2.12:1.2.1")
         .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")
         .config(
             "spark.sql.catalog.spark_catalog",
