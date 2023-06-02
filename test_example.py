@@ -2,6 +2,7 @@ from pyspark.sql import SparkSession
 import uuid
 import pytest
 import tempfile
+import random
 
 
 @pytest.fixture(scope="module")
@@ -23,7 +24,7 @@ def spark():
 
 def test_save(spark, tmp_path):
     df = spark.createDataFrame(
-        [(i, uuid.uuid4().hex) for i in range(500)],
-        schema=["id", "value"],
+        [(i, uuid.uuid4().hex, random.random()) for i in range(500)],
+        schema=["id", "value", "float"],
     )
     df.coalesce(1).write.format("parquet").mode("append").save(str(tmp_path))
