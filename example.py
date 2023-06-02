@@ -11,6 +11,7 @@ with tempfile.TemporaryDirectory() as tempdir:
             "spark.sql.catalog.spark_catalog",
             "org.apache.spark.sql.delta.catalog.DeltaCatalog",
         )
+        .config("spark.sql.warehouse.dir", str(tempdir))
         .getOrCreate()
     ) as sess:
         df = sess.createDataFrame(
