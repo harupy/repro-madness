@@ -16,4 +16,4 @@ with (
         [(1, "foo"), (2, "bar")],
         schema=["id", "value"],
     )
-    df.write.format("delta").mode("overwrite").saveAsTable("delta")
+    df.write.format("parquet").mode("append").saveAsTable("delta")
