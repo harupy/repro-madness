@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-
+import uuid
 
 with (
     SparkSession.builder.master("local[*]")
@@ -12,7 +12,7 @@ with (
     .getOrCreate()
 ) as sess:
     df = sess.createDataFrame(
-        [(1, "foo"), (2, "bar")],
+        [(i, uuid.uuid4().hex) for i in range(500)],
         schema=["id", "value"],
     )
-    df.write.format("parquet").mode("append").saveAsTable("delta")
+    df.coalesce(1).write.format("parquet").mode("append").saveAsTable("delta")
