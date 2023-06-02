@@ -22,7 +22,7 @@ jobs:
           java-version: 11
           distribution: "adopt"
       - run: |
-          pip install pyspark
+          pip install -r requirements.txt
       - run: |
           git clone https://github.com/cdarlint/winutils
       - name: Run python tests
