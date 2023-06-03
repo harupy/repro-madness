@@ -5,7 +5,7 @@ import tempfile
 import random
 
 
-@pytest.fixture(scope="module", autouse=True)
+@pytest.fixture(scope="class", autouse=True)
 def spark():
     with tempfile.TemporaryDirectory() as tmpdir:
         with (
