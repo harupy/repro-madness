@@ -5,7 +5,7 @@ import tempfile
 import random
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="module", autouse=True)
 def spark():
     with tempfile.TemporaryDirectory() as tmpdir:
         with (
@@ -22,7 +22,15 @@ def spark():
             yield sess
 
 
-def test_save(spark, tmp_path):
+def test_save1(spark, tmp_path):
+    df = spark.createDataFrame(
+        [(i, uuid.uuid4().hex, random.random()) for i in range(500)],
+        schema=["id", "value", "float"],
+    )
+    df.coalesce(1).write.format("parquet").mode("append").save(str(tmp_path))
+
+
+def test_save2(spark, tmp_path):
     df = spark.createDataFrame(
         [(i, uuid.uuid4().hex, random.random()) for i in range(500)],
         schema=["id", "value", "float"],
