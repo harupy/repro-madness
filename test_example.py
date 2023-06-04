@@ -1,8 +1,13 @@
 from pyspark.sql import SparkSession
+from pyspark.sql.functions import pandas_udf, PandasUDFType
 import uuid
 import pytest
 import tempfile
 import random
+import pandas as pd
+
+from typing import Iterator, Tuple
+from pyspark.sql.functions import struct, col
 
 
 @pytest.fixture(scope="class", autouse=True)
@@ -22,17 +27,34 @@ def spark():
             yield sess
 
 
-def test_save1(spark, tmp_path):
+def test_save1(spark):
+    @pandas_udf("double")
+    def multiply(iterator: Iterator[pd.DataFrame]) -> Iterator[pd.Series]:
+        import mlflow
+
+        for df in iterator:
+            yield df.sum(axis=1)
+
+    num_columns = 6
     df = spark.createDataFrame(
-        [(i, uuid.uuid4().hex, random.random()) for i in range(500)],
-        schema=["id", "value", "float"],
+        [tuple(random.random() for _ in range(num_columns)) for i in range(500)],
+        schema=[str(i) for i in range(num_columns)],
     )
-    df.coalesce(1).write.format("parquet").mode("append").save(str(tmp_path))
+    df = df.withColumn("sum", multiply(struct([col(c) for c in df.columns])))
+    df.show()
 
 
-def test_save2(spark, tmp_path):
+def test_save2(spark):
+    @pandas_udf("double")
+    def multiply(iterator: Iterator[pd.DataFrame]) -> Iterator[pd.Series]:
+        mlflow
+        for df in iterator:
+            yield df.sum(axis=1)
+
+    num_columns = 6
     df = spark.createDataFrame(
-        [(i, uuid.uuid4().hex, random.random()) for i in range(500)],
-        schema=["id", "value", "float"],
+        [tuple(random.random() for _ in range(num_columns)) for i in range(500)],
+        schema=[str(i) for i in range(num_columns)],
     )
-    df.coalesce(1).write.format("parquet").mode("append").save(str(tmp_path))
+    df = df.withColumn("sum", multiply(struct([col(c) for c in df.columns])))
+    df.show()
