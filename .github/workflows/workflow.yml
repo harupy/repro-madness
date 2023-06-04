@@ -32,4 +32,4 @@ jobs:
           export HADOOP_HOME=`realpath winutils/hadoop-3.2.2`
           export PATH=$PATH:$HADOOP_HOME/bin
 
-          pytest test_example.py -s
+          pytest example.py
