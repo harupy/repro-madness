@@ -4,7 +4,7 @@ import pytest
 import random
 import pandas as pd
 
-from typing import Iterator, Tuple
+from typing import Iterator
 from pyspark.sql.functions import struct, col
 
 
