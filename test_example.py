@@ -30,7 +30,7 @@ def spark():
 def test_save1(spark):
     @pandas_udf("double")
     def multiply(iterator: Iterator[pd.DataFrame]) -> Iterator[pd.Series]:
-        import mlflow
+        import datasets
 
         for df in iterator:
             yield df.sum(axis=1)
@@ -47,7 +47,7 @@ def test_save1(spark):
 def test_save2(spark):
     @pandas_udf("double")
     def multiply(iterator: Iterator[pd.DataFrame]) -> Iterator[pd.Series]:
-        import mlflow
+        import datasets
 
         for df in iterator:
             yield df.sum(axis=1)
