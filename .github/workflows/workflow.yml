@@ -22,13 +22,13 @@ jobs:
           distribution: "adopt"
       - run: |
           pip install -r requirements.txt
-      - run: |
-          git clone https://github.com/cdarlint/winutils
+      # - run: |
+      #     git clone https://github.com/cdarlint/winutils
       - name: Run python tests
         shell: bash
         run: |
           # Set Hadoop environment variables required for testing Spark integrations on Windows
-          export HADOOP_HOME=`realpath winutils/hadoop-3.2.2`
-          export PATH=$PATH:$HADOOP_HOME/bin
+          # export HADOOP_HOME=`realpath winutils/hadoop-3.2.2`
+          # export PATH=$PATH:$HADOOP_HOME/bin
 
           python example.py
