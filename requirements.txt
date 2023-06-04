@@ -2,3 +2,4 @@ pyspark<3.3
 pandas<2
 pytest
 mlflow@git+https://github.com/mlflow/mlflow.git
+evaluate
