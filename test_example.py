@@ -1,8 +1,6 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import pandas_udf, PandasUDFType
-import uuid
+from pyspark.sql.functions import pandas_udf
 import pytest
-import tempfile
 import random
 import pandas as pd
 
