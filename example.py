@@ -10,7 +10,7 @@ with SparkSession.builder.master("local[*]").getOrCreate() as spark:
 
     @pandas_udf("double")
     def multiply(iterator: Iterator[pd.DataFrame]) -> Iterator[pd.Series]:
-        import datasets
+        import pyarrow
 
         for df in iterator:
             yield df.sum(axis=1)
