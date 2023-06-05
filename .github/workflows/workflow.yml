@@ -32,3 +32,23 @@ jobs:
           export PATH=$PATH:$HADOOP_HOME/bin
 
           python example.py
+
+  ubuntu:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+          cache: "pip"
+      - uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: "adopt"
+      - run: |
+          pip install -r requirements.txt
+      - name: Run python tests
+        shell: bash
+        run: |
+          python example.py
